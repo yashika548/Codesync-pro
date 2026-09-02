@@ -27,10 +27,11 @@ export interface RunCodeResponse {
 export const runCode = async (
   data: RunCodeRequest
 ): Promise<RunCodeResponse> => {
-  const response = await api.post(
-    "/code/run",
-    data
-  );
+  const response = await api.post("/code/run", {
+    sourceCode: data.code,
+    languageId: Number(data.language),
+    stdin: data.stdin,
+  });
 
   return response.data;
 };

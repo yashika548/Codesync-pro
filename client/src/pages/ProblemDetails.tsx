@@ -649,12 +649,19 @@ const ProblemDetails = () => {
         setPassedTests(0);
         setTotalTests(0);
 
-        const result =
-          await submitProblem(
-            problemId,
-            code,
-            LANGUAGE_IDS[language]
-          );
+
+        
+
+       if (!problem.slug) {
+  setError("Problem slug is missing.");
+  return;
+}
+
+const result = await submitProblem(
+  problem.slug,
+  code,
+  LANGUAGE_IDS[language]
+);
 
         // =============================================
         // VERDICT
