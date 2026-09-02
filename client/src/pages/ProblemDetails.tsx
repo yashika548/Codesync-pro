@@ -421,11 +421,10 @@ const ProblemDetails = () => {
 
         setRunTestCase(null);
 
-        const response =
-         await runCode({
-    code,
-    languageId: LANGUAGE_IDS[language],
-    stdin: input,
+        const response = await runCode({
+  code,
+  language: String(LANGUAGE_IDS[language]),
+  stdin: input,
 });
 
         if (!response?.token) {
