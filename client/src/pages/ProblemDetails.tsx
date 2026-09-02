@@ -422,13 +422,11 @@ const ProblemDetails = () => {
         setRunTestCase(null);
 
         const response =
-          await runCode({
-            sourceCode,
-            language: String(
-              LANGUAGE_IDS[language]
-            ),
-            stdin: input,
-          });
+         await runCode({
+    sourceCode,
+    languageId: LANGUAGE_IDS[language],
+    stdin: input,
+});
 
         if (!response?.token) {
           throw new Error(
