@@ -27,7 +27,7 @@ const Submissions = () => {
   useEffect(() => {
     const loadSubmissions = async () => {
       try {
-        const problems = getProblems();
+        const problems =await  getProblems();
 
         const allSubmissions: Submission[] = [];
 
