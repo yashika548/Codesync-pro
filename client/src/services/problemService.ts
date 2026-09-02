@@ -1,6 +1,7 @@
-import axios from "axios";
 
-const API_URL = "http://localhost:5000/api";
+import api from "./api";
+
+
 
 // =====================================================
 // TYPES
@@ -189,8 +190,8 @@ const normalizeProblem = (raw: any): Problem => {
 export const getProblems = async (): Promise<Problem[]> => {
   const token = localStorage.getItem("token");
 
-  const response = await axios.get(
-    `${API_URL}/problems`,
+  const response = await api.get(
+    `/problems`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -221,8 +222,8 @@ export const getProblemById = async (
 
   const token = localStorage.getItem("token");
 
-  const response = await axios.get(
-    `${API_URL}/problems/${problemId}`,
+  const response = await api.get(
+    `/problems/${problemId}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,

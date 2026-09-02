@@ -1,4 +1,4 @@
-import axios from "axios";
+import api from "./api";
 
 export interface AskAIRequest {
   code: string;
@@ -48,7 +48,6 @@ export interface RAGSearchResponse {
   context?: string;
 }
 
-
 // =====================================================
 // NORMAL AI
 // =====================================================
@@ -56,25 +55,13 @@ export interface RAGSearchResponse {
 export const askAI = async (
   data: AskAIRequest
 ): Promise<AskAIResponse> => {
-
-  const token =
-    localStorage.getItem("token");
-
-  const response = await axios.post(
-    "http://localhost:5000/api/ai/ask",
-    data,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type":
-          "application/json",
-      },
-    }
+  const response = await api.post(
+    "/ai/ask",
+    data
   );
 
   return response.data;
 };
-
 
 // =====================================================
 // RAG AI
@@ -83,27 +70,17 @@ export const askAI = async (
 export const searchRAG = async (
   data: RAGSearchRequest
 ): Promise<RAGSearchResponse> => {
-
-  const token =
-    localStorage.getItem("token");
-
-  const response = await axios.post(
-    "http://localhost:5000/api/ai/rag/search",
-    data,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type":
-          "application/json",
-      },
-    }
+  const response = await api.post(
+    "/ai/rag/search",
+    data
   );
 
   return response.data;
 };
 
-
-
+// =====================================================
+// RAG SOURCE
+// =====================================================
 
 export interface RAGSource {
   _id?: string;
@@ -114,6 +91,10 @@ export interface RAGSource {
   score?: number;
   metadata?: any;
 }
+
+// =====================================================
+// AI AGENT
+// =====================================================
 
 export interface AgentResponse {
   success: boolean;
@@ -161,12 +142,8 @@ export const runAgent = async ({
     output: string;
   }[];
 }): Promise<AgentResponse> => {
-
-  const token =
-    localStorage.getItem("token");
-
-  const response = await axios.post(
-    "http://localhost:5000/api/ai/agent/run",
+  const response = await api.post(
+    "/ai/agent/run",
     {
       question,
       conversationId,
@@ -175,18 +152,15 @@ export const runAgent = async ({
       problem,
       constraints,
       examples,
-    },
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
     }
   );
 
   return response.data;
 };
 
+// =====================================================
+// AI CONVERSATION MESSAGE
+// =====================================================
 
 export interface AIConversationMessage {
   _id: string;
@@ -196,27 +170,21 @@ export interface AIConversationMessage {
   createdAt: string;
 }
 
-export const getAIConversation =
-  async (
-    conversationId: string
-  ): Promise<AIConversationMessage[]> => {
+// =====================================================
+// GET AI CONVERSATION MESSAGES
+// =====================================================
 
-    const token =
-      localStorage.getItem("token");
+export const getAIConversation = async (
+  conversationId: string
+): Promise<AIConversationMessage[]> => {
+  const response = await api.get(
+    `/ai/conversation/${conversationId}`
+  );
 
-    const response = await axios.get(
-      `http://localhost:5000/api/ai/conversation/${conversationId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+  return response.data.messages;
+};
 
-    return response.data.messages;
-  };
-
-  // =====================================================
+// =====================================================
 // AI CONVERSATIONS
 // =====================================================
 
@@ -229,7 +197,6 @@ export interface AIConversation {
   createdAt: string;
   updatedAt: string;
 }
-
 
 // =====================================================
 // CREATE CONVERSATION
@@ -244,28 +211,17 @@ export const createAIConversation = async ({
   problemId?: string | null;
   problemTitle?: string | null;
 }): Promise<AIConversation> => {
-
-  const token =
-    localStorage.getItem("token");
-
-  const response = await axios.post(
-    "http://localhost:5000/api/ai/conversations",
+  const response = await api.post(
+    "/ai/conversations",
     {
       title,
       problemId,
       problemTitle,
-    },
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
     }
   );
 
   return response.data.conversation;
 };
-
 
 // =====================================================
 // GET USER CONVERSATIONS
@@ -273,22 +229,12 @@ export const createAIConversation = async ({
 
 export const getAIConversations =
   async (): Promise<AIConversation[]> => {
-
-    const token =
-      localStorage.getItem("token");
-
-    const response = await axios.get(
-      "http://localhost:5000/api/ai/conversations",
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
+    const response = await api.get(
+      "/ai/conversations"
     );
 
     return response.data.conversations;
   };
-
 
 // =====================================================
 // GET SINGLE CONVERSATION
@@ -298,22 +244,12 @@ export const getAIConversationDetails =
   async (
     conversationId: string
   ): Promise<AIConversation> => {
-
-    const token =
-      localStorage.getItem("token");
-
-    const response = await axios.get(
-      `http://localhost:5000/api/ai/conversations/${conversationId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
+    const response = await api.get(
+      `/ai/conversations/${conversationId}`
     );
 
     return response.data.conversation;
   };
-
 
 // =====================================================
 // DELETE CONVERSATION
@@ -323,16 +259,7 @@ export const deleteAIConversation =
   async (
     conversationId: string
   ): Promise<void> => {
-
-    const token =
-      localStorage.getItem("token");
-
-    await axios.delete(
-      `http://localhost:5000/api/ai/conversations/${conversationId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
+    await api.delete(
+      `/ai/conversations/${conversationId}`
     );
   };

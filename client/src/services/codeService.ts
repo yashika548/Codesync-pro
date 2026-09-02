@@ -1,6 +1,4 @@
-import axios from "axios";
-
-const API_URL = "http://localhost:5000/api/code";
+import api from "./api";
 
 const getAuthToken = () => {
   const token =
@@ -29,23 +27,18 @@ export interface RunCodeResponse {
 export const runCode = async (
   data: RunCodeRequest
 ): Promise<RunCodeResponse> => {
-  const token = localStorage.getItem("token");
-
-  const response = await axios.post(
-    `${API_URL}/judge/run`,
-    data,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
+  const response = await api.post(
+    "/code/judge/run",
+    data
   );
 
   return response.data;
 };
 
 export const getCodeResult = async (token: string) => {
-  const response = await axios.get(`${API_URL}/result/${token}`);
+  const response = await api.get(
+    `/code/result/${token}`
+  );
 
   return response.data;
 };
@@ -65,17 +58,12 @@ export const submitProblem = async (
     );
   }
 
-  const response = await axios.post(
-    `${API_URL}/submit`,
+  const response = await api.post(
+    "/code/submit",
     {
       problemSlug,
       sourceCode,
       languageId,
-    },
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
     }
   );
 
@@ -93,13 +81,8 @@ export const getSubmissionHistory = async (
     );
   }
 
-  const response = await axios.get(
-    `${API_URL}/submissions/history/${problemSlug}`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
+  const response = await api.get(
+    `/code/submissions/history/${problemSlug}`
   );
 
   return response.data;
@@ -116,13 +99,8 @@ export const getSubmissionDetails = async (
     );
   }
 
-  const response = await axios.get(
-    `${API_URL}/submissions/details/${submissionId}`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
+  const response = await api.get(
+    `/code/submissions/details/${submissionId}`
   );
 
   return response.data;
