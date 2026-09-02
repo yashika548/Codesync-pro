@@ -10,7 +10,7 @@ const getAuthToken = () => {
 };
 
 export interface RunCodeRequest {
-  code: string;
+  sourceCode: string;
   language: string;
   stdin?: string;
 }
