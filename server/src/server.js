@@ -32,6 +32,7 @@ const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:3000",
   "https://codesync-pro.vercel.app",
+  "https://client-7o7v.vercel.app",
   "https://codesync-pro-git-main-yashika11.vercel.app",
 ];
 
