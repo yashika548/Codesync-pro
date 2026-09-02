@@ -9,6 +9,8 @@ const initializeSocket = (server) => {
       "http://localhost:3000",
       "https://codesync-pro.vercel.app",
       "https://codesync-pro-git-main-yashika11.vercel.app",
+          "https://client-7o7v.vercel.app",
+
     ],
     methods: ["GET", "POST"],
     credentials: true,
