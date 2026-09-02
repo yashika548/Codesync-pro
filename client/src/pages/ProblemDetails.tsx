@@ -423,7 +423,7 @@ const ProblemDetails = () => {
 
         const response =
           await runCode({
-            code,
+            sourceCode,
             language: String(
               LANGUAGE_IDS[language]
             ),
