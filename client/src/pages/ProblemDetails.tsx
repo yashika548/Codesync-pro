@@ -423,7 +423,7 @@ const ProblemDetails = () => {
 
         const response =
          await runCode({
-    sourceCode,
+    code,
     languageId: LANGUAGE_IDS[language],
     stdin: input,
 });
