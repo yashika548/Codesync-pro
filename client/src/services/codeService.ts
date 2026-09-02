@@ -28,7 +28,7 @@ export const runCode = async (
   data: RunCodeRequest
 ): Promise<RunCodeResponse> => {
   const response = await api.post(
-    "/code/judge/run",
+    "/code/run",
     data
   );
 
