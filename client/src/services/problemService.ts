@@ -132,7 +132,7 @@ const normalizeProblem = (raw: any): Problem => {
         ];
 
   return {
-    id: String(raw.id ?? raw._id ?? ""),
+    id: String(raw.id || raw._id ||"" ),
     slug: String(raw.slug ?? ""),
 
     title: raw.title || "Untitled Problem",

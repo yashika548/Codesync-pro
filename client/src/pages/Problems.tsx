@@ -45,7 +45,7 @@ const validDifficulty =
         data.map(async (problem) => {
           try {
             const history =
-              await getSubmissionHistory(problem.id);
+              await getSubmissionHistory(problem.slug);
 
             const submissions =
               history.submissions || [];
@@ -405,7 +405,13 @@ const solvedHard = problems.filter(
     className={`problem-card ${
       solvedProblems.includes(problem.id) ? "solved-card" : ""
     }`}
-    onClick={() => navigate(`/problems/${problem.id}`)}
+onClick={() => {
+  console.log("CLICKED PROBLEM:", problem);
+  console.log("CLICKED PROBLEM ID:", problem.id);
+
+  navigate(`/problems/${problem.id}`);
+}}
+    
   >
     <div className="problem-number">
       {index + 1}

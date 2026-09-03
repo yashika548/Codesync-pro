@@ -223,7 +223,7 @@ const ProblemDetails = () => {
   // ===================================================
 
   useEffect(() => {
-    if (!problemId) {
+    if (!problemId || problemId === "undefined") {
       setProblem(null);
       setProblemLoading(false);
       return;
@@ -273,34 +273,30 @@ const ProblemDetails = () => {
   // LOAD SUBMISSION HISTORY
   // ===================================================
 
-  useEffect(() => {
-    if (!problemId) {
-      return;
+ useEffect(() => {
+  if (!problem?.slug) {
+    return;
+  }
+
+  const loadHistory = async () => {
+    try {
+      console.log("Loading history for slug:", problem.slug);
+
+      const history = await getSubmissionHistory(problem.slug);
+
+      setSubmissionHistory(history?.submissions || []);
+    } catch (error) {
+      console.error(
+        "Failed to load submission history:",
+        error
+      );
+
+      setSubmissionHistory([]);
     }
+  };
 
-    const loadHistory =
-      async () => {
-        try {
-          const history =
-            await getSubmissionHistory(
-              problemId
-            );
-
-          setSubmissionHistory(
-            history?.submissions || []
-          );
-        } catch (error) {
-          console.error(
-            "Failed to load submission history:",
-            error
-          );
-
-          setSubmissionHistory([]);
-        }
-      };
-
-    loadHistory();
-  }, [problemId]);
+  loadHistory();
+}, [problem?.slug]);
 
   // ===================================================
   // LOAD STARTER CODE
@@ -750,7 +746,7 @@ const result = await submitProblem(
         try {
           const history =
             await getSubmissionHistory(
-              problemId
+              problem.slug
             );
 
           setSubmissionHistory(
