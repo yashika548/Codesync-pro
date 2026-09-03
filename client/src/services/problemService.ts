@@ -14,7 +14,7 @@ export interface TestCase {
 
 export interface Problem {
   id: string;
-  slug?: string;
+  slug: string;
   title: string;
   difficulty: "Easy" | "Medium" | "Hard";
   category: string;
@@ -133,7 +133,7 @@ const normalizeProblem = (raw: any): Problem => {
 
   return {
     id: String(raw.id ?? raw._id ?? ""),
-    slug: raw.slug,
+    slug: String(raw.slug ?? ""),
 
     title: raw.title || "Untitled Problem",
 

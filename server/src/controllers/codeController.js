@@ -311,6 +311,10 @@ const getSubmissionHistory = async (req, res) => {
   try {
     const { problemSlug } = req.params;
 
+    console.log("========== HISTORY DEBUG ==========");
+    console.log("USER ID:", req.user.id);
+    console.log("PROBLEM SLUG FROM URL:", problemSlug);
+
     const submissions = await Submission.find({
       userId: req.user.id,
       problemSlug,
@@ -319,6 +323,10 @@ const getSubmissionHistory = async (req, res) => {
         "problemSlug language languageId verdict passedTests totalTests runtime memory results createdAt"
       )
       .sort({ createdAt: -1 });
+
+    console.log("FOUND SUBMISSIONS:", submissions.length);
+    console.log("SUBMISSIONS:", submissions);
+    console.log("===================================");
 
     res.status(200).json({
       success: true,

@@ -3,7 +3,7 @@ const Problem = require("../models/Problem");
 const getProblems = async (req, res) => {
   try {
     const problems = await Problem.find().select(
-      "_id title difficulty category"
+      "_id slug title difficulty category"
     );
 
     res.status(200).json(problems);

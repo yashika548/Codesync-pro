@@ -34,7 +34,14 @@ const Submissions = () => {
         await Promise.all(
           problems.map(async (problem: Problem) => {
             try {
-              const response = await getSubmissionHistory(problem.id);
+             if (!problem.slug) {
+  console.error("❌ PROBLEM SLUG MISSING:", problem);
+  return;
+}
+
+console.log("✅ FETCHING HISTORY FOR SLUG:", problem.slug);
+
+const response = await getSubmissionHistory(problem.slug);
 
               const problemSubmissions =
                 response.submissions || [];
